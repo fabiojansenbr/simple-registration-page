@@ -1,7 +1,14 @@
-<div class="card mt-3" id="cardRegister">
+<div class="card mt-3" id="cardRegister" style="display: none">
     <div class="card-header">Registration</div>
     <div class="card-body small">
-        <form action="/api/v1/auth/register" method="POST" id="formRegistration">
+        
+        <div id="overlay">
+            <div class="w-100 d-flex justify-content-center align-items-center">
+                <div class="spinner"></div>
+            </div>
+        </div>
+
+        <form id="formRegistration">
 
             <div class="form-group row">
                 <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
@@ -74,7 +81,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-block btn-primary">Register</button>
+            <button type="button" class="btn btn-block btn-primary" id="submitRegistration">Register</button>
 
         </form>
     </div>

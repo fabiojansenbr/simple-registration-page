@@ -1,16 +1,14 @@
-function initPage() {
-    let cardRegister = $('#cardRegister');
-    let cardLogin = $('#cardLogin');
-    let cardDashboard = $('#cardDashboard');
+let cardRegister = $('#cardRegister');
+let cardLogin = $('#cardLogin');
+let cardDashboard = $('#cardDashboard');
 
-    if (localStorage.length == 0) {
+function initPage() {
+    if (!localStorage.token) {
         cardRegister.show();
         cardLogin.hide();
         cardDashboard.hide();
-    } else if (localStorage.length >= 1) {
-        cardRegister.hide();
-        cardLogin.hide();
-        cardDashboard.show();
+    } else {
+        loadDashboard();
     }
 }
 
@@ -49,6 +47,7 @@ function formValidation() {
         }
     });
 
+    // validation form registration
     $('#formRegistration').validate({
         rules: {
             firstName: {
@@ -110,6 +109,60 @@ function formValidation() {
                 required: "Please provide a password",
                 equalTo: "Password does not match"
             }
+        }
+    });
+
+    // validation form login
+    $("#formLogin").validate({
+        rules: {
+            emailLogin: {
+                required: true,
+                email: true
+            },
+            passwordLogin: {
+                required: true
+            }
+        }
+    });
+}
+
+function showAlert(type, message) {
+    return '<div class="alert alert-' + type + ' alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>' + message + '</div>';
+}
+
+function loadDashboard() {
+    $.ajax({
+        type: 'POST',
+        url: '/api/v1/user/info',
+        beforeSend: function (xhr) {
+            if (localStorage.token) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+            }
+        },
+        success: function (data) {
+            cardRegister.hide();
+            cardLogin.hide();
+            cardDashboard.show();
+
+            let content = '';
+            content += '<table class="table table-condensed">';
+            content += '<tbody>';
+            content += '<tr><th class="w-25">Name</th><td>'+data.data.firstName+' '+data.data.lastName+'</td></tr>';
+            content += '<tr><th>Email</th><td>'+data.data.email+'</td></tr>';
+            content += '<tr><th>Mobile Number</th><td>'+data.data.mobileNumber+'</td></tr>';
+            content += '<tr><th>Date of Birth</th><td>'+data.data.dateOfBirth+'</td></tr>';
+            content += '<tr><th>Gender</th><td>'+data.data.gender+'</td></tr>';
+            content += '</tbody>';
+            content += '</table>';
+            
+            $("#bodyDashboard").html(content);
+        },
+        error: function () {
+            alert("Sorry, you are not logged in.");
+            localStorage.clear();
+            cardRegister.show();
+            cardLogin.hide();
+            cardDashboard.hide();
         }
     });
 }

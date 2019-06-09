@@ -17,7 +17,7 @@ module.exports = {
                 };
                 let token = jwt.sign(payload, config.secret, {
                     // tokens will expire in 15 minutes
-                    expiresIn: 900
+                    expiresIn: 1800
                 });
 
                 res.status(200).json({
