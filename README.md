@@ -17,7 +17,7 @@ Simple Registration Page
 
 ## Testing Tools
 
-- [Jest](https://jestjs.io/)
+- [JEST](https://jestjs.io/)
 
 ## Installations
 
