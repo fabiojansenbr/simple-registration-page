@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon ./bin/www",
     "test": "cross-env NODE_ENV=test jest --coverage",
-    "test-ci": "jest --coverage --forceExit"
+    "test-ci": "cross-env NODE_ENV=test jest --coverage --forceExit"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
