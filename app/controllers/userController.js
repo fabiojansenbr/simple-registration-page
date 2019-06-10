@@ -1,4 +1,4 @@
-const User = require('../../database/models').User;
+const User = require('../models').User;
 const bcrypt = require('bcrypt');
 
 function hashPassword(password) {
@@ -62,8 +62,8 @@ module.exports = {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 mobileNumber: req.body.mobileNumber,
-                dateOfBirth: req.body.dateOfBirth,
-                gender: req.body.gender
+                dateOfBirth: req.body.dateOfBirth || null,
+                gender: req.body.gender || null
             })
             .then((user) => res.status(200).json({
                 status: true,

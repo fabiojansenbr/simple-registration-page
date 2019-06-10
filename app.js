@@ -5,13 +5,20 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 let middleware = require('./app/middleware/middleware');
-let models = require('./database/models');
+let models = require('./app/models');
 
 var index = require('./routes/index');
 var auth = require('./routes/auth');
 var users = require('./routes/users');
 
 var app = express();
+
+// sync database
+async () => {
+  await models.sequelize.drop();
+  await models.sequelize.sync().then(() => console.log('Connection to the database has been established successfully'));
+};
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
